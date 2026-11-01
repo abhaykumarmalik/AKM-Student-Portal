@@ -1,0 +1,18 @@
+नया update जोड़ने के लिए: content/updates/ में नई फ़ाइल बनाएँ, नाम अंग्रेज़ी में और अंत में .md  (जैसे: ba-part1-result-2026.md)
+और नीचे का ढाँचा पेस्ट करके बदलें।  (date हमेशा YYYY-MM-DD)
+
+---
+title: BA Part 1 Result 2026 जारी
+date: 2026-11-02
+category: Result
+university: Magadh University
+source: https://magadhuniversity.ac.in
+summary: एक लाइन में बताएँ कि इस update में क्या है।
+---
+यहाँ अपने शब्दों में पूरी जानकारी लिखें। खाली लाइन छोड़ने पर नया पैराग्राफ बनता है।
+
+## छोटा शीर्षक
+- पहला बिंदु
+- दूसरा बिंदु
+
+**मोटा अक्षर** और [लिंक का नाम](https://example.com) भी चलता है।

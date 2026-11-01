@@ -1,0 +1,2 @@
+# AdSense approve होने पर नीचे की लाइन में pub-xxxxxxxxxxxxxxxx अपनी publisher ID से बदलें और '#' हटाएँ
+# google.com, pub-xxxxxxxxxxxxxxxx, DIRECT, f08c47fec0942fa0
