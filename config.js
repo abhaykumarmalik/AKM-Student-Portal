@@ -8,5 +8,4 @@ window.AKM_CONFIG = {
   SUPABASE_ANON_KEY: "",   // Supabase → Project Settings → API → anon key (सार्वजनिक key)
   ADSENSE_CLIENT: "",      // AdSense approve होने के बाद: ca-pub-xxxxxxxxxxxxxxxx
   ADSENSE_SLOT: ""         // AdSense में बनाए ad unit की slot ID
-ADMIN_PASSWORD: "AbhiAbhay@240802",
   };
