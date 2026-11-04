@@ -71,10 +71,11 @@ function parseData() {
   const fp = path.join(ROOT, "data.txt");
   if (!fs.existsSync(fp)) return;
   const out = { unis: [], colleges: [], uniLinks: [], collegeLinks: [], notices: [], collegeNotices: [], study: [], mcq: [], cx: [], sx: [] };
-  const okU = u => !u || /^https?:\/\//i.test(u) || new RegExp("^" + FILE + "$", "i").test(u);
+  const U = (u, ln) => { const r = fixU(u); if (r === null) throw new Error(`data.txt लाइन ${ln}: लिंक सही नहीं ("${u}"). https:// या www. से शुरू करें, या फ़ाइल का नाम लिखें (जैसे notes.pdf)`); return r; };
+  const fixU = u => { u = (u || "").trim(); if (!u) return ""; const m = u.match(/https?:\/\/\S+/i); if (m) return m[0]; if (new RegExp("^" + FILE + "$", "i").test(u)) return u; if (/^(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/i.test(u)) return "https://" + u; return null; };
   const need = (c, ln, msg) => { if (!c) throw new Error(`data.txt लाइन ${ln}: ${msg}`); };
   const nm = s => { const q = s.split("@"); return { n: q[0].trim(), p: (q[1] || "").trim() }; };
-  const lk = (a, ln) => { const l = {}; ["ad", "ex", "rs", "sy"].forEach((k, i) => { if (a[i]) { need(okU(a[i]), ln, "लिंक https:// से शुरू होना चाहिए (या फ़ाइल का नाम, जैसे notes.pdf): " + a[i]); l[k] = a[i]; } }); return l; };
+  const lk = (a, ln) => { const l = {}; ["ad", "ex", "rs", "sy"].forEach((k, i) => { if (a[i]) l[k] = U(a[i], ln); }); return l; };
   const SECS = ["universities", "colleges", "uni-links", "college-links", "notices", "college-notices", "study", "mcq", "central-exams", "state-exams"];
   let sec = "";
   fs.readFileSync(fp, "utf8").replace(/\r\n/g, "\n").split("\n").forEach((raw, i) => {
@@ -84,15 +85,15 @@ function parseData() {
     if (sm) { sec = sm[1].toLowerCase(); need(SECS.includes(sec), ln, "अज्ञात हिस्सा [" + sec + "]"); return; }
     need(sec, ln, "पहले [हिस्से का नाम] लिखें");
     const f = line.split("|").map(s => s.trim());
-    if (sec === "universities") { need(f.length >= 5 && /^[a-z0-9-]+$/.test(f[0]), ln, "ढाँचा: id | Short | पूरा नाम | शहर | Type | Website (id में छोटे अक्षर/अंक/-)"); need(["State", "Central", "Institute"].includes(f[4]), ln, "Type State, Central या Institute लिखें"); need(okU(f[5]), ln, "Website का लिंक https:// से शुरू करें"); out.unis.push({ id: f[0], s: f[1], n: f[2], c: f[3], t: f[4], u: f[5] || "", v: 0, l: {} }); }
-    else if (sec === "colleges") { need(f.length >= 3 && f[0] && f[1] && f[2], ln, "ढाँचा: uni-id | College नाम | जगह | Type | Website"); need(okU(f[4]), ln, "Website का लिंक https:// से शुरू करें"); out.colleges.push({ uid: f[0], n: f[1], p: f[2], t: /^c/i.test(f[3] || "") ? "Constituent" : "Affiliated", u: f[4] || "", nt: [] }); }
-    else if (sec === "uni-links") { need(f[0], ln, "ढाँचा: uni-id | Website | Admission | Exam Form | Result | Syllabus"); need(okU(f[1]), ln, "Website का लिंक सही नहीं"); out.uniLinks.push({ id: f[0], u: f[1] || "", l: lk(f.slice(2), ln) }); }
-    else if (sec === "college-links") { need(f[0], ln, "ढाँचा: College नाम | Website | Admission | Exam Form | Result | Syllabus"); need(okU(f[1]), ln, "Website का लिंक सही नहीं"); out.collegeLinks.push({ ...nm(f[0]), u: f[1] || "", l: lk(f.slice(2), ln) }); }
+    if (sec === "universities") { need(f.length >= 5 && /^[a-z0-9-]+$/.test(f[0]), ln, "ढाँचा: id | Short | पूरा नाम | शहर | Type | Website (id में छोटे अक्षर/अंक/-)"); need(["State", "Central", "Institute"].includes(f[4]), ln, "Type State, Central या Institute लिखें"); out.unis.push({ id: f[0], s: f[1], n: f[2], c: f[3], t: f[4], u: U(f[5], ln), v: 0, l: {} }); }
+    else if (sec === "colleges") { need(f.length >= 3 && f[0] && f[1] && f[2], ln, "ढाँचा: uni-id | College नाम | जगह | Type | Website"); out.colleges.push({ uid: f[0], n: f[1], p: f[2], t: /^c/i.test(f[3] || "") ? "Constituent" : "Affiliated", u: U(f[4], ln), nt: [] }); }
+    else if (sec === "uni-links") { need(f[0], ln, "ढाँचा: uni-id | Website | Admission | Exam Form | Result | Syllabus"); out.uniLinks.push({ id: f[0], u: U(f[1], ln), l: lk(f.slice(2), ln) }); }
+    else if (sec === "college-links") { need(f[0], ln, "ढाँचा: College नाम | Website | Admission | Exam Form | Result | Syllabus"); out.collegeLinks.push({ ...nm(f[0]), u: U(f[1], ln), l: lk(f.slice(2), ln) }); }
     else if (sec === "notices") { need(/^\d{4}-\d{2}-\d{2}$/.test(f[0]) && f[1], ln, "ढाँचा: 2026-11-02 | शीर्षक | विवरण"); out.notices.push({ d: f[0], t: f[1], x: f.slice(2).join(" | ") }); }
     else if (sec === "college-notices") { need(f[0] && /^\d{4}-\d{2}-\d{2}$/.test(f[1]) && f[2], ln, "ढाँचा: College नाम | 2026-11-02 | शीर्षक | विवरण"); out.collegeNotices.push({ ...nm(f[0]), d: f[1], t: f[2], x: f.slice(3).join(" | ") }); }
-    else if (sec === "study") { need(f[0] && f[2], ln, "ढाँचा: Course | Subject | शीर्षक | नोट्स | लिंक/PDF"); need(okU(f[4]), ln, "लिंक https:// से शुरू करें या फ़ाइल का नाम लिखें (जैसे notes.pdf)"); out.study.push({ c: f[0], s: f[1] || "", t: f[2], x: f[3] || "", u: f[4] || "" }); }
+    else if (sec === "study") { need(f[0] && f[2], ln, "ढाँचा: Course | Subject | शीर्षक | नोट्स | लिंक/PDF"); out.study.push({ c: f[0], s: f[1] || "", t: f[2], x: f[3] || "", u: U(f[4], ln) }); }
     else if (sec === "mcq") { const a = "ABCD".indexOf((f[5] || "").toUpperCase()); need(f[0] && f[1] && f[2] && a > -1, ln, "ढाँचा: सवाल | A | B | C | D | सही उत्तर (A/B/C/D)"); out.mcq.push({ q: f[0], o: [f[1], f[2], f[3], f[4]].filter(Boolean), a }); }
-    else { need(f[0] && f[2], ln, "ढाँचा: Exam नाम | संस्था | Official लिंक | Syllabus लिंक | PYQ लिंक"); need(okU(f[2]) && okU(f[3]) && okU(f[4]), ln, "लिंक https:// से शुरू करें"); (sec === "central-exams" ? out.cx : out.sx).push({ n: f[0], b: f[1] || "", u: f[2], sy: f[3] || "", pq: f[4] || "" }); }
+    else { need(f[0] && f[2], ln, "ढाँचा: Exam नाम | संस्था | Official लिंक | Syllabus लिंक | PYQ लिंक"); (sec === "central-exams" ? out.cx : out.sx).push({ n: f[0], b: f[1] || "", u: U(f[2], ln), sy: U(f[3], ln), pq: U(f[4], ln) }); }
   });
   fs.writeFileSync(path.join(ROOT, "data.json"), JSON.stringify(out));
   console.log(`✅ data.txt: ${out.colleges.length} college, ${out.unis.length} university, ${out.mcq.length} MCQ, ${out.study.length} study, ${out.cx.length + out.sx.length} exam`);
