@@ -1,5 +1,5 @@
-नया update जोड़ने के लिए: content/updates/ में नई फ़ाइल बनाएँ, नाम अंग्रेज़ी में और अंत में .md  (जैसे: ba-part1-result-2026.md)
-और नीचे का ढाँचा पेस्ट करके बदलें।  (date हमेशा YYYY-MM-DD)
+नया update जोड़ने के लिए: GitHub में Add file → Create new file → नाम अंग्रेज़ी में, शुरू में post- और अंत में .md
+(जैसे: post-ba-part1-result-2026.md) और नीचे का ढाँचा पेस्ट करके बदलें। (date हमेशा YYYY-MM-DD)
 
 ---
 title: BA Part 1 Result 2026 जारी
@@ -16,3 +16,9 @@ summary: एक लाइन में बताएँ कि इस update म�
 - दूसरा बिंदु
 
 **मोटा अक्षर** और [लिंक का नाम](https://example.com) भी चलता है।
+
+PDF जोड़ने के लिए पहले PDF को repo में upload करें (नाम में space न हो, जैसे ba-notes.pdf), फिर:
+[PDF डाउनलोड करें](ba-notes.pdf)
+
+फोटो जोड़ने के लिए पहले फोटो upload करें (जैसे result-chart.png), फिर:
+![फोटो का नाम](result-chart.png)

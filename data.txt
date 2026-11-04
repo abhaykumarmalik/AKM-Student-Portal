@@ -1,0 +1,58 @@
+# ===== AKM Student Portal: डेटा फ़ाइल =====
+# यहाँ college, link, MCQ, study material आदि जोड़ें। हर चीज़ अपनी एक लाइन में, बीच में | (खड़ी रेखा)।
+# जिस लाइन के शुरू में # है वह सिर्फ़ टिप्पणी है (साइट पर नहीं दिखती)।
+# नई लाइन जोड़ने के लिए: नीचे उस हिस्से का उदाहरण कॉपी करें, शुरू का # हटाएँ और अपनी जानकारी लिखें।
+# लिंक हमेशा https:// से शुरू करें। PDF/फोटो अपलोड की हो तो सिर्फ़ फ़ाइल का नाम लिखें (जैसे ba-notes.pdf)।
+# Commit के 1-2 मिनट में साइट पर दिखने लगता है। कोई गलती हो तो Actions में लाल ❌ के साथ बताया जाता है कि कौन सी लाइन गलत है।
+
+
+[colleges]
+# uni-id | College नाम | जगह | Type (Constituent या Affiliated) | Website (वैकल्पिक)
+# uni-id: Magadh = magadh, Patna Univ = patna, LNMU = lnmu, VKSU = vksu, TMBU = tmbu, BRABU = brabu, JPU = jpu, BNMU = bnmu
+# patna | Patna College | Patna | Constituent | https://example.com
+# magadh | Naya College | Gaya | Affiliated
+
+
+[college-links]
+# College नाम (या College नाम @ जगह) | Website | Admission | Exam Form | Result | Syllabus   (खाली छोड़ सकते हैं)
+# Gaya College | https://www.gayacollege.org | | | | syllabus-gaya.pdf
+
+
+[college-notices]
+# College नाम (या College नाम @ जगह) | तारीख (2026-11-02) | शीर्षक | विवरण
+# Gaya College | 2026-11-02 | Admission शुरू | आवेदन की अंतिम तिथि 20 नवंबर है।
+
+
+[uni-links]
+# uni-id | Website | Admission | Exam Form | Result | Syllabus   (जो खाली छोड़ेंगे वह पहले जैसा रहेगा)
+# magadh | | https://example.com/admission | https://example.com/exam | https://example.com/result | https://example.com/syllabus
+
+
+[universities]
+# id (छोटे अक्षर) | Short नाम | पूरा नाम | शहर | Type (State / Central / Institute) | Website
+# newuni | NU | New University | Patna | State | https://example.com
+
+
+[notices]
+# तारीख | शीर्षक | विवरण      (Updates tab में "छोटे नोटिस")
+# 2026-11-02 | परीक्षा तिथि बदली | नई तारीख की जानकारी आधिकारिक वेबसाइट पर देखें।
+
+
+[study]
+# Course | Subject | शीर्षक | छोटे नोट्स | लिंक या PDF का नाम (वैकल्पिक)
+# BA | History | मौर्य साम्राज्य | मुख्य बिंदु यहाँ लिखें | maurya-notes.pdf
+
+
+[mcq]
+# सवाल | A | B | C | D | सही उत्तर (A/B/C/D)
+# बिहार की राजधानी कौन सी है? | गया | पटना | आरा | मुंगेर | B
+
+
+[central-exams]
+# Exam नाम | संस्था | Official लिंक | Syllabus लिंक | PYQ लिंक
+# SSC GD | SSC | https://ssc.gov.in | https://ssc.gov.in | https://ssc.gov.in
+
+
+[state-exams]
+# Exam नाम | संस्था | Official लिंक | Syllabus लिंक | PYQ लिंक
+# Bihar Daroga | BPSSC | https://bpssc.bihar.gov.in | |
