@@ -15,8 +15,8 @@
 
 [college-links]
 # College नाम (या College नाम @ जगह) | Website | Admission | Exam Form | Result | Syllabus   (खाली छोड़ सकते हैं)
-Gaya College | https://www.gayacollege.ac.in | Vocational - https://www.gayacollege.ac.in/vocational/ | www.magadhonline.in | www.magadhonline.in | syllabus-gaya.pdf
-Daudnagar College Daudnagar | www.daudnagarcollege.ac.in | https://online.daudnagarcollege.ac.in/degree/ | www.magadhonline.in | www.magadhonline.in |
+Gaya College | https://www.gayacollege.ac.in | https://www.gayacollege.ac.in/vocational/ | www.magadhonline.in | www.magadhonline.in | syllabus-gaya.pdf
+Daudnagar College | www.daudnagarcollege.ac.in | https://online.daudnagarcollege.ac.in/degree/ | www.magadhonline.in | www.magadhonline.in |
 
 
 [college-notices]
