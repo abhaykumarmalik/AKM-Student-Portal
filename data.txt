@@ -15,7 +15,7 @@
 
 [college-links]
 # College नाम (या College नाम @ जगह) | Website | Admission | Exam Form | Result | Syllabus   (खाली छोड़ सकते हैं)
-# Gaya College | https://www.gayacollege.org | | | | syllabus-gaya.pdf
+ Gaya College | https://www.gayacollege.ac.in | Vocational - https://www.gayacollege.ac.in/vocational-admission.php | magadh online.in| | syllabus-gaya.pdf
 
 
 [college-notices]
