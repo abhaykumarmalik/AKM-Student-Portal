@@ -57,3 +57,35 @@ Thakur BD Sinha Janta College | https://tbdscollege.ac.in/ | https://tbdscollege
 [state-exams]
 # Exam नाम | संस्था | Official लिंक | Syllabus लिंक | PYQ लिंक
 # Bihar Daroga | BPSSC | https://bpssc.bihar.gov.in | |
+
+# ===== इसे अपनी data.txt के सबसे नीचे जोड़ें (पुरानी लाइनें मत हटाएँ) =====
+# हर लाइन के शुरू में # हटाकर अपनी जानकारी लिखें।
+
+
+[uni-notices]
+# uni-id | तारीख | शीर्षक | विवरण | PDF या फोटो का नाम (या https:// लिंक)  <- आख़िरी हिस्सा वैकल्पिक
+# uni-id: Magadh = magadh, Patna Univ = patna, LNMU = lnmu, VKSU = vksu, TMBU = tmbu, BRABU = brabu, JPU = jpu, BNMU = bnmu
+# magadh | 2026-11-04 | Part 1 परीक्षा कार्यक्रम | नया कार्यक्रम देखें | magadh-exam-schedule.pdf
+
+
+[college-notices]
+# College नाम | तारीख | शीर्षक | विवरण | PDF या फोटो का नाम (या https:// लिंक)  <- आख़िरी हिस्सा वैकल्पिक
+# Gaya College | 2026-11-04 | Admission Notice | अंतिम तिथि 20 नवंबर | gaya-admission-notice.pdf
+# Gaya College | 2026-11-05 | Result चार्ट | देखें | gaya-result.png
+
+
+[college-courses]
+# College नाम | Level | Courses (कॉमा से अलग) | Admission लिंक | Syllabus लिंक/PDF
+# Level में से एक: UG, PG, B.Ed, Vocational, Professional, PhD
+# Gaya College | UG | BA, B.Sc, B.Com | https://college.in/ug-admission | https://college.in/ug-syllabus
+# Gaya College | B.Ed | B.Ed 2 Year | https://college.in/bed
+
+
+[uni-courses]
+# uni-id | Level | Courses | Admission लिंक | Syllabus लिंक/PDF
+# magadh | PhD | सभी विषय | https://university.in/phd-admission | https://university.in/phd-syllabus
+
+
+[notices]
+# तारीख | शीर्षक | विवरण | PDF या फोटो का नाम (या लिंक)  <- आख़िरी हिस्सा वैकल्पिक
+# 2026-11-05 | परीक्षा नोटिस | विवरण यहाँ | exam-notice.pdf
