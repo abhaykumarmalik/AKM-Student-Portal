@@ -82,6 +82,7 @@ magadh | 2026-10-23 | Semester 3rd 2025-29 Exam Schedule | new exam schedule | u
 # Level में से एक: UG, PG, B.Ed, Vocational, Professional, PhD
 # Gaya College | UG | BA, B.Sc, B.Com | https://college.in/ug-admission | https://college.in/ug-syllabus
 # Gaya College | B.Ed | B.Ed 2 Year | https://college.in/bed
+Gaya College | Vocational | https://www.gayacollege.ac.in/vocational-admission.php
 
 
 [uni-courses]
