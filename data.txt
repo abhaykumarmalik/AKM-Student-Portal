@@ -66,6 +66,9 @@ Thakur BD Sinha Janta College | https://tbdscollege.ac.in/ | https://tbdscollege
 # uni-id | तारीख | शीर्षक | विवरण | PDF या फोटो का नाम (या https:// लिंक)  <- आख़िरी हिस्सा वैकल्पिक
 # uni-id: Magadh = magadh, Patna Univ = patna, LNMU = lnmu, VKSU = vksu, TMBU = tmbu, BRABU = brabu, JPU = jpu, BNMU = bnmu
 # magadh | 2026-11-04 | Part 1 परीक्षा कार्यक्रम | नया कार्यक्रम देखें | magadh-exam-schedule.pdf
+magadh | 2026-10-23 | Semester 5th 2024-28 Exam Schedule | ug-5th-semester.jpg
+magadh | 2026-10-23 | Semester 7th 2023-27 Exam Schedule | ug-7th-semester.jpg
+magadh | 2026-10-23 | Semester 3rd 2025-29 Exam Schedule | ug-3rd-semester.jpg
 
 
 [college-notices]
