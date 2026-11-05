@@ -70,13 +70,14 @@ function shell({ title, desc, p, body, ld, og }) {
 function parseData() {
   const fp = path.join(ROOT, "data.txt");
   if (!fs.existsSync(fp)) return;
-  const out = { unis: [], colleges: [], uniLinks: [], collegeLinks: [], notices: [], collegeNotices: [], study: [], mcq: [], cx: [], sx: [] };
+  const out = { unis: [], colleges: [], uniLinks: [], collegeLinks: [], notices: [], collegeNotices: [], collegeCourses: [], uniCourses: [], uniNotices: [], study: [], mcq: [], cx: [], sx: [] };
+  const LVN2 = s => ({ ug: "UG", pg: "PG", bed: "B.Ed", voc: "Vocational", vocational: "Vocational", vocation: "Vocational", prof: "Professional", professional: "Professional", phd: "PhD", doctorate: "PhD" })[String(s || "").toLowerCase().replace(/[^a-z]/g, "")];
   const U = (u, ln) => { const r = fixU(u); if (r === null) throw new Error(`data.txt लाइन ${ln}: लिंक सही नहीं ("${u}"). https:// या www. से शुरू करें, या फ़ाइल का नाम लिखें (जैसे notes.pdf)`); return r; };
   const fixU = u => { u = (u || "").trim(); if (!u) return ""; const m = u.match(/https?:\/\/\S+/i); if (m) return m[0]; if (new RegExp("^" + FILE + "$", "i").test(u)) return u; if (/^(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/i.test(u)) return "https://" + u; return null; };
   const need = (c, ln, msg) => { if (!c) throw new Error(`data.txt लाइन ${ln}: ${msg}`); };
   const nm = s => { const q = s.split("@"); return { n: q[0].trim(), p: (q[1] || "").trim() }; };
   const lk = (a, ln) => { const l = {}; ["ad", "ex", "rs", "sy"].forEach((k, i) => { if (a[i]) l[k] = U(a[i], ln); }); return l; };
-  const SECS = ["universities", "colleges", "uni-links", "college-links", "notices", "college-notices", "study", "mcq", "central-exams", "state-exams"];
+  const SECS = ["universities", "colleges", "uni-links", "college-links", "notices", "college-notices", "college-courses", "uni-courses", "uni-notices", "study", "mcq", "central-exams", "state-exams"];
   let sec = "";
   fs.readFileSync(fp, "utf8").replace(/\r\n/g, "\n").split("\n").forEach((raw, i) => {
     const ln = i + 1, line = raw.trim();
@@ -89,8 +90,10 @@ function parseData() {
     else if (sec === "colleges") { need(f.length >= 3 && f[0] && f[1] && f[2], ln, "ढाँचा: uni-id | College नाम | जगह | Type | Website"); out.colleges.push({ uid: f[0], n: f[1], p: f[2], t: /^c/i.test(f[3] || "") ? "Constituent" : "Affiliated", u: U(f[4], ln), nt: [] }); }
     else if (sec === "uni-links") { need(f[0], ln, "ढाँचा: uni-id | Website | Admission | Exam Form | Result | Syllabus"); out.uniLinks.push({ id: f[0], u: U(f[1], ln), l: lk(f.slice(2), ln) }); }
     else if (sec === "college-links") { need(f[0], ln, "ढाँचा: College नाम | Website | Admission | Exam Form | Result | Syllabus"); out.collegeLinks.push({ ...nm(f[0]), u: U(f[1], ln), l: lk(f.slice(2), ln) }); }
-    else if (sec === "notices") { need(/^\d{4}-\d{2}-\d{2}$/.test(f[0]) && f[1], ln, "ढाँचा: 2026-11-02 | शीर्षक | विवरण"); out.notices.push({ d: f[0], t: f[1], x: f.slice(2).join(" | ") }); }
-    else if (sec === "college-notices") { need(f[0] && /^\d{4}-\d{2}-\d{2}$/.test(f[1]) && f[2], ln, "ढाँचा: College नाम | 2026-11-02 | शीर्षक | विवरण"); out.collegeNotices.push({ ...nm(f[0]), d: f[1], t: f[2], x: f.slice(3).join(" | ") }); }
+    else if (sec === "college-courses" || sec === "uni-courses") { const lvl = LVN2(f[1]); need(f[0] && lvl && f[2], ln, "ढाँचा: " + (sec === "uni-courses" ? "uni-id" : "College नाम") + " | Level (UG / PG / B.Ed / Vocational / Professional / PhD) | Courses (कॉमा , से अलग) | Admission लिंक | Syllabus लिंक"); const cs = f[2].split(",").map(s => s.trim()).filter(Boolean); need(cs.length, ln, "कम से कम एक course लिखें"); const l = lk([f[3], "", "", f[4]], ln); if (sec === "uni-courses") out.uniCourses.push({ id: f[0], lv: lvl, cs, l }); else out.collegeCourses.push({ ...nm(f[0]), lv: lvl, cs, l }); }
+    else if (sec === "notices") { need(/^\d{4}-\d{2}-\d{2}$/.test(f[0]) && f[1], ln, "ढाँचा: 2026-11-02 | शीर्षक | विवरण | PDF/फोटो/लिंक (वैकल्पिक)"); out.notices.push({ d: f[0], t: f[1], x: f[2] || "", f: U(f[3], ln) }); }
+    else if (sec === "uni-notices") { need(f[0] && /^\d{4}-\d{2}-\d{2}$/.test(f[1]) && f[2], ln, "ढाँचा: uni-id | 2026-11-02 | शीर्षक | विवरण | PDF/फोटो/लिंक (वैकल्पिक)"); out.uniNotices.push({ id: f[0], d: f[1], t: f[2], x: f[3] || "", f: U(f[4], ln) }); }
+    else if (sec === "college-notices") { need(f[0] && /^\d{4}-\d{2}-\d{2}$/.test(f[1]) && f[2], ln, "ढाँचा: College नाम | 2026-11-02 | शीर्षक | विवरण | PDF/फोटो/लिंक (वैकल्पिक)"); out.collegeNotices.push({ ...nm(f[0]), d: f[1], t: f[2], x: f[3] || "", f: U(f[4], ln) }); }
     else if (sec === "study") { need(f[0] && f[2], ln, "ढाँचा: Course | Subject | शीर्षक | नोट्स | लिंक/PDF"); out.study.push({ c: f[0], s: f[1] || "", t: f[2], x: f[3] || "", u: U(f[4], ln) }); }
     else if (sec === "mcq") { const a = "ABCD".indexOf((f[5] || "").toUpperCase()); need(f[0] && f[1] && f[2] && a > -1, ln, "ढाँचा: सवाल | A | B | C | D | सही उत्तर (A/B/C/D)"); out.mcq.push({ q: f[0], o: [f[1], f[2], f[3], f[4]].filter(Boolean), a }); }
     else { need(f[0] && f[2], ln, "ढाँचा: Exam नाम | संस्था | Official लिंक | Syllabus लिंक | PYQ लिंक"); (sec === "central-exams" ? out.cx : out.sx).push({ n: f[0], b: f[1] || "", u: U(f[2], ln), sy: U(f[3], ln), pq: U(f[4], ln) }); }

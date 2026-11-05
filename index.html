@@ -121,7 +121,7 @@ var Q={on:false,i:0,s:0,sel:-1,done:false};
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function $(s){return document.querySelector(s)}
 function toast(m){var t=$("#toast");t.textContent=m;t.className="on";setTimeout(function(){t.className=""},1800)}
-function go(t){tab=t;cu=null;cc=null;sub="";dist="All";lim=30;render();window.scrollTo(0,0)}
+function go(t){tab=t;cu=null;cc=null;sub="";dist="All";lv="All";lim=30;render();window.scrollTo(0,0)}
 var NAV=[["home","🏠","Home"],["unis","🎓","University"],["study","📚","Study"],["quiz","📝","MCQ"],["notices","📰","Updates"]];
 function render(){
 $("#nav").innerHTML=NAV.map(function(n){return'<button class="'+(tab==n[0]?"on":"")+'" onclick="go(\''+n[0]+'\')"><b>'+n[1]+"</b>"+n[2]+"</button>"}).join("");
@@ -130,7 +130,9 @@ $("#v").innerHTML=({home:home,unis:unis,study:study,quiz:quiz,notices:notices,ad
 if(tab=="unis"){ulist();clist()}}
 function nd(d){var p=String(d).split("-");var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];return p.length==3?'<div class="nd"><b>'+p[2]+"</b><span>"+(m[+p[1]-1]||"")+"</span></div>":'<div class="nd"><b>📢</b></div>'}
 function nlist(n){return nl(db.notices,n)}
-function nl(a,n){return a.slice(0,n).map(function(x){return'<div class="card row" style="align-items:flex-start">'+nd(x.d)+'<div style="flex:1"><b>'+esc(x.t)+'</b><p class="mu">'+esc(x.x)+"</p></div></div>"}).join("")||'<p class="mu">कोई नोटिस नहीं।</p>'}
+function unt(u){return u.nt&&u.nt.length?"<h3>📢 University Notices</h3>"+nl(u.nt,30):""}
+function att(f){if(!f)return"";if(/\.(png|jpe?g|webp|gif)(\?.*)?$/i.test(f))return'<a href="'+esc(f)+'" target="_blank" rel="noopener"><img src="'+esc(f)+'" alt="notice" loading="lazy" style="max-width:100%;height:auto;border-radius:12px;margin-top:8px;display:block"></a>';return'<a class="tag" style="margin-top:8px" target="_blank" rel="noopener" href="'+esc(f)+'">📎 '+(/\.pdf(\?.*)?$/i.test(f)?"PDF खोलें":"फ़ाइल / लिंक खोलें")+" ↗</a>"}
+function nl(a,n){return a.slice(0,n).map(function(x){return'<div class="card row" style="align-items:flex-start">'+nd(x.d)+'<div style="flex:1"><b>'+esc(x.t)+'</b><p class="mu">'+esc(x.x)+"</p>"+att(x.f)+"</div></div>"}).join("")||'<p class="mu">कोई नोटिस नहीं।</p>'}
 var lg="disc";
 function foot(){return fsoc()+'<div class="foot"><a onclick="lg=\'disc\';go(\'legal\')">Disclaimer</a> · <a onclick="lg=\'priv\';go(\'legal\')">Privacy Policy</a><p class="mu" style="margin-top:8px">AKM Student Portal एक स्वतंत्र शैक्षिक वेबसाइट है; किसी विश्वविद्यालय या सरकारी संस्था से संबद्ध नहीं।</p></div>'}
 function ad(id){var c=window.AKM_CONFIG||{};return c.ADSENSE_CLIENT&&c.ADSENSE_SLOT?'<div class="ad"><small>विज्ञापन</small><div class="adbox"></div></div>':""}
@@ -151,14 +153,14 @@ return'<div class="card hero"><img class="hl" src="'+LOGO_L+'" alt="AKM Student 
 '<div class="row"><h3>🎓 Universities</h3><a class="tag" style="cursor:pointer" onclick="go(\'unis\')">सभी देखें ›</a></div><div class="chips">'+db.unis.filter(function(u){return u.t=="State"}).map(function(u){return'<button class="chip" onclick="go(\'unis\');to(\''+u.id+'\',null)">'+esc(u.s)+"</button>"}).join("")+"</div><h3>🏛️ Central Competition Exams</h3>"+exl(db.cx)+ad("h1")+"<h3>📋 State (Bihar) Competition Exams</h3>"+exl(db.sx)+
 (ups.length?'<div class="row"><h3>📰 Latest Updates</h3><a class="tag" style="cursor:pointer" onclick="go(\'notices\')">सभी देखें ›</a></div>'+upl(4):"")+join()+"<h3>📢 ताज़ा नोटिस</h3>"+nlist(2)+
 '<div class="card"><b>📲 ऐप की तरह इस्तेमाल करें</b><p class="mu">Chrome में ⋮ → “Add to Home screen”।</p></div>'}
-var cu=null,cc=null,uf="All",dist="All",lim=30;
+var cu=null,cc=null,uf="All",dist="All",lv="All",lim=30;
 var TY=[["All","सभी"],["State","राज्य (State)"],["Central","केंद्रीय (Central)"],["Institute","IIT / NIT / AIIMS"]];
 function uget(id){return db.unis.filter(function(u){return u.id==id})[0]||{}}
 function ucol(id){return db.colleges.filter(function(c){return c.uid==id})}
 function dst(c){var p=String(c.p||"").split(",");return p[p.length-1].trim()}
 function srt(a,b){return(a.id=="magadh"?0:1)-(b.id=="magadh"?0:1)||a.n.localeCompare(b.n)}
-function to(u,c){cu=u;cc=c;sub="";cf="All";dist="All";lim=30;render();window.scrollTo(0,0)}
-function back(){if(cc!=null)cc=null;else cu=null;sub="";dist="All";lim=30;render();window.scrollTo(0,0)}
+function to(u,c){cu=u;cc=c;sub="";cf="All";dist="All";lv="All";lim=30;render();window.scrollTo(0,0)}
+function back(){if(cc!=null)cc=null;else cu=null;sub="";dist="All";lv="All";lim=30;render();window.scrollTo(0,0)}
 function hs(){var q=$("#hq").value.trim();go("unis");sub=q;render()}
 function ch(l,cur,v,t){return'<button class="chip '+(cur==l?"on":"")+'" onclick="'+v+"='"+l+"';lim=30;render()\">"+(t||l)+"</button>"}
 function lnk(u,t,i,g){return u?'<a class="tile" target="_blank" rel="noopener" href="'+esc(u)+'"><div class="ic '+g+'">'+i+"</div>"+t+"</a>":""}
@@ -167,30 +169,34 @@ var LK=[["ad","📄","Admission"],["ex","📝","Exam Form"],["rs","🏆","Result
 function lurl(k,c,u){return(c&&c.l&&c.l[k])||(u&&u.l&&u.l[k])||(u&&u.u)||(c&&c.u)||""}
 function lks(c,u){return'<div class="lk" onclick="event.stopPropagation()">'+LK.map(function(x){var h=lurl(x[0],c,u);return h?'<a target="_blank" rel="noopener" href="'+esc(h)+'">'+x[1]+" "+x[2]+"</a>":""}).join("")+"</div>"}
 function four(c,u){return'<div class="grid">'+LK.map(function(x){return lnk(lurl(x[0],c,u),x[2],x[1],"g0")}).join("")+"</div>"}
+var LVN={UG:"UG · स्नातक",PG:"PG · स्नातकोत्तर",Vocational:"Vocational · कौशल / रोज़गार परक",Professional:"Professional · पेशेवर","B.Ed":"B.Ed · शिक्षक शिक्षा",PhD:"PhD · शोध"};
+function ctx(c){return(c.courses||[]).map(function(x){return x.lv+" "+x.cs.join(" ")}).join(" ")}
+function lvt(c){var a=(c.courses||[]).map(function(x){return x.lv});return a.length?'<div class="mu" style="margin-top:2px">🎓 '+a.join(" · ")+"</div>":""}
+function crs(c){var a=c.courses||[];if(!a.length)return"";return"<h3>📚 Courses</h3>"+["UG","PG","B.Ed","Vocational","Professional","PhD"].map(function(l){var x=a.filter(function(y){return y.lv==l})[0];return x?'<div class="card"><b>'+LVN[l]+'</b><div style="margin-top:8px">'+x.cs.map(function(k){return'<span class="tag" style="margin:0 6px 6px 0">'+esc(k)+"</span>"}).join("")+"</div>"+((x.l&&(x.l.ad||x.l.sy))?'<div class="lk">'+(x.l.ad?'<a target="_blank" rel="noopener" href="'+esc(x.l.ad)+'">📄 Admission</a>':"")+(x.l.sy?'<a target="_blank" rel="noopener" href="'+esc(x.l.sy)+'">📘 Syllabus</a>':"")+"</div>":"")+"</div>":""}).join("")}
 function unis(){
 if(cc!=null)return cdet();
 if(cu)return udet();
 return'<h3 style="margin-top:4px">🎓 विश्वविद्यालय और कॉलेज</h3><p class="mu" style="margin:-4px 2px 8px">नाम या शहर लिखें, या नीचे सूची से चुनें।</p><div class="find"><input id="q" type="search" placeholder="🔍 University / College / शहर खोजें" oninput="sub=this.value;ulist()" value="'+esc(sub)+'"><div class="chips">'+TY.map(function(t){return ch(t[0],uf,"uf",t[1])}).join("")+'</div></div><div id="ul"></div>'+ad("u1")+'<div class="card"><p class="mu">राज्य विश्वविद्यालयों की सरकारी सूची कुलाधिपति पोर्टल पर भी है। सूची समय के साथ बदल सकती है; अंतिम जानकारी आधिकारिक वेबसाइट से जाँचें।</p><a class="tag" target="_blank" rel="noopener" href="'+CH+'">Chancellor portal ↗</a></div>'}
 function ucard(u){var n=ucol(u.id).length;return'<div class="card row" style="justify-content:flex-start;align-items:flex-start;cursor:pointer" onclick="to(\''+u.id+'\',null)"><div class="av" style="font-size:'+(u.s.length>3?11:14)+'px">'+esc(u.s)+'</div><div style="flex:1;min-width:0"><b>'+esc(u.n)+'</b><div class="mu">📍 '+esc(u.c)+" · "+esc(u.t)+(n?" · "+n+" कॉलेज":"")+"</div>"+lks(null,u)+'</div><span style="align-self:center">›</span></div>'}
-function ccard(c,su){var u=uget(c.uid);return'<div class="card row" style="justify-content:flex-start;align-items:flex-start;cursor:pointer" onclick="to(\''+c.uid+"',"+db.colleges.indexOf(c)+')"><div class="av'+(c.t=="Affiliated"?" a":"")+'">'+esc(ini(c.n))+'</div><div style="flex:1;min-width:0"><b>'+esc(c.n)+'</b><div class="mu">📍 '+esc(c.p)+" · "+esc(c.t)+(su&&u.s?" · "+esc(u.s):"")+(c.u?" · 🌐":"")+(c.nt&&c.nt.length?" · 📢 "+c.nt.length:"")+"</div>"+lks(c,u)+'</div><span style="align-self:center">›</span></div>'}
+function ccard(c,su){var u=uget(c.uid);return'<div class="card row" style="justify-content:flex-start;align-items:flex-start;cursor:pointer" onclick="to(\''+c.uid+"',"+db.colleges.indexOf(c)+')"><div class="av'+(c.t=="Affiliated"?" a":"")+'">'+esc(ini(c.n))+'</div><div style="flex:1;min-width:0"><b>'+esc(c.n)+'</b><div class="mu">📍 '+esc(c.p)+" · "+esc(c.t)+(su&&u.s?" · "+esc(u.s):"")+(c.u?" · 🌐":"")+(c.nt&&c.nt.length?" · 📢 "+c.nt.length:"")+"</div>"+lvt(c)+lks(c,u)+'</div><span style="align-self:center">›</span></div>'}
 function ulist(){var e=$("#ul");if(!e)return;var s=sub.toLowerCase().trim();
 var us=db.unis.filter(function(u){return(uf=="All"||u.t==uf)&&(!s||(u.n+" "+u.s+" "+u.c).toLowerCase().indexOf(s)>-1)}).sort(srt);
-var cs=s?db.colleges.filter(function(c){return(c.n+" "+c.p).toLowerCase().indexOf(s)>-1}):[];
+var cs=s?db.colleges.filter(function(c){return(c.n+" "+c.p+" "+ctx(c)).toLowerCase().indexOf(s)>-1}):[];
 var o='<p class="mu" style="margin:2px 4px 8px">'+us.length+" विश्वविद्यालय / संस्थान</p>"+us.map(ucard).join("");
 if(s)o+="<h3>🏫 Colleges ("+cs.length+")</h3>"+(cs.slice(0,25).map(function(c){return ccard(c,1)}).join("")||'<p class="mu">कोई college नहीं मिला।</p>')+(cs.length>25?'<p class="mu">और परिणामों के लिए नाम थोड़ा और लिखें।</p>':"");
 if(!us.length&&!cs.length)o='<div class="card"><b>कुछ नहीं मिला</b><p class="mu">नाम की स्पेलिंग बदलकर देखें। अपना college न दिखे तो उसकी university खोलकर देखें। सूची में कमी हो तो Contact पेज पर ईमेल करें।</p></div>';
 e.innerHTML=o}
-function udet(){var u=uget(cu),r=ucol(cu),n=r.length,ds=[];r.forEach(function(c){var d=dst(c);if(d&&ds.indexOf(d)<0)ds.push(d)});ds.sort();
+function udet(){var u=uget(cu),r=ucol(cu),n=r.length,ds=[],hl=r.some(function(c){return(c.courses||[]).length});r.forEach(function(c){var d=dst(c);if(d&&ds.indexOf(d)<0)ds.push(d)});ds.sort();
 return'<button class="chip" onclick="back()">← सभी विश्वविद्यालय</button><div class="card hero" style="margin-top:10px"><h2 style="font-size:19px">'+esc(u.n)+"</h2><p>📍 "+esc(u.c)+" · "+esc(u.t)+(u.v?" · ✓ लिंक जाँचा हुआ":"")+"</p></div><h3>सीधे जाएँ</h3>"+four(null,u)+
-(u.u?'<div class="grid" style="grid-template-columns:1fr;margin-top:10px">'+lnk(u.u,"Official Website","🌐","g1")+"</div>":'<div class="card"><p class="mu">इसका आधिकारिक लिंक उपलब्ध नहीं। Admin → Universities से जोड़ें।</p></div>')+
-'<p class="mu" style="margin:8px 2px">ये बटन university की official website / portal खोलते हैं। सीधे सही पेज के लिंक Admin → Univ Links से जोड़े जा सकते हैं।</p><h3>🏫 Colleges ('+n+")</h3>"+
-(n?'<div><input id="q" type="search" placeholder="🔍 College या जगह खोजें" oninput="sub=this.value;lim=30;clist()" value="'+esc(sub)+'"><div class="chips">'+["All","Constituent","Affiliated"].map(function(f){return ch(f,cf,"cf",f=="All"?"सभी":f)}).join("")+"</div>"+(ds.length>1?'<div class="chips">'+["All"].concat(ds).map(function(d){return ch(d,dist,"dist",d=="All"?"सभी जिले":d)}).join("")+"</div>":"")+'</div><div id="cl"></div>':'<div class="card"><p class="mu">इस विश्वविद्यालय की कॉलेज सूची अभी ऐप में नहीं जोड़ी गई है। आधिकारिक पोर्टल पर देखें, या Admin → Bulk Colleges से एक साथ जोड़ें।</p></div>')+
+(u.u?'<div class="grid" style="grid-template-columns:1fr;margin-top:10px">'+lnk(u.u,"Official Website","🌐","g1")+"</div>":'<div class="card"><p class="mu">इसका आधिकारिक लिंक अभी उपलब्ध नहीं है।</p></div>')+
+'<p class="mu" style="margin:8px 2px">ये बटन university की official website / portal खोलते हैं।</p>'+crs(u)+unt(u)+'<h3>🏫 Colleges ('+n+")</h3>"+
+(n?'<div><input id="q" type="search" placeholder="🔍 College या जगह खोजें" oninput="sub=this.value;lim=30;clist()" value="'+esc(sub)+'"><div class="chips">'+["All","Constituent","Affiliated"].map(function(f){return ch(f,cf,"cf",f=="All"?"सभी":f)}).join("")+"</div>"+(ds.length>1?'<div class="chips">'+["All"].concat(ds).map(function(d){return ch(d,dist,"dist",d=="All"?"सभी जिले":d)}).join("")+"</div>":"")+(hl?'<div class="chips">'+["All","UG","PG","B.Ed","Vocational","Professional","PhD"].map(function(l){return ch(l,lv,"lv",l=="All"?"सभी Course":l)}).join("")+"</div>":"")+'</div><div id="cl"></div>':'<div class="card"><p class="mu">इस विश्वविद्यालय की कॉलेज सूची अभी ऐप में नहीं जोड़ी गई है। आधिकारिक पोर्टल पर देखें।</p></div>')+
 '<div class="card"><a class="tag" target="_blank" rel="noopener" href="'+CH+'">Colleges list: Chancellor portal ↗</a>'+(cu=="magadh"?'<a class="tag" target="_blank" rel="noopener" href="'+OFF+'constituent-colleges">Official Constituent ↗</a><a class="tag" target="_blank" rel="noopener" href="'+OFF+'affiliated-colleges">Official Affiliated ↗</a>':"")+"</div>"}
-function clist(){var e=$("#cl");if(!e)return;var s=sub.toLowerCase().trim(),r=ucol(cu).filter(function(c){return(cf=="All"||c.t==cf)&&(dist=="All"||dst(c)==dist)&&(!s||(c.n+" "+c.p).toLowerCase().indexOf(s)>-1)}).sort(function(a,b){return(a.t==b.t?0:a.t=="Constituent"?-1:1)||a.n.localeCompare(b.n)});
+function clist(){var e=$("#cl");if(!e)return;var s=sub.toLowerCase().trim(),r=ucol(cu).filter(function(c){return(cf=="All"||c.t==cf)&&(dist=="All"||dst(c)==dist)&&(lv=="All"||(c.courses||[]).some(function(x){return x.lv==lv}))&&(!s||(c.n+" "+c.p+" "+ctx(c)).toLowerCase().indexOf(s)>-1)}).sort(function(a,b){return(a.t==b.t?0:a.t=="Constituent"?-1:1)||a.n.localeCompare(b.n)});
 e.innerHTML='<p class="mu" style="margin:2px 4px 8px">'+r.length+" कॉलेज</p>"+(r.slice(0,lim).map(function(c){return ccard(c)}).join("")||'<div class="card"><p class="mu">इस फ़िल्टर में कोई college नहीं। “सभी” चुनकर देखें।</p></div>')+(r.length>lim?'<button class="btn s" onclick="lim+=30;clist()">और दिखाएँ ('+(r.length-lim)+" बाकी)</button>":"")}
 function cdet(){var c=db.colleges[cc],u=uget(c.uid);
 return'<button class="chip" onclick="back()">← '+esc(u.n||"वापस")+'</button><div class="card hero" style="margin-top:10px"><h2 style="font-size:19px">'+esc(c.n)+"</h2><p>📍 "+esc(c.p)+" · "+esc(c.t)+'</p><span class="pill">🎓 '+esc(u.n||"")+"</span></div><h3>सीधे जाएँ</h3>"+four(c,u)+
-'<div class="grid" style="margin-top:10px">'+(lnk(c.u,"College Website","🌐","g1")||'<div class="card mu" style="margin:0">College की वेबसाइट उपलब्ध नहीं। Admin → College Links से जोड़ें।</div>')+lnk(u.u,"University Website","🏛️","g0")+'</div><h3>📢 College Notices</h3>'+nl(c.nt||[],30)+'<p class="mu">College notices Admin → College Notice से जुड़ते हैं। आधिकारिक नोटिस के लिए college/university की वेबसाइट देखें।</p><button class="btn s" onclick="back()">← इसी university के और colleges</button>'}
+'<div class="grid" style="margin-top:10px">'+(lnk(c.u,"College Website","🌐","g1")||'<div class="card mu" style="margin:0">College की वेबसाइट अभी उपलब्ध नहीं है।</div>')+lnk(u.u,"University Website","🏛️","g0")+'</div>'+crs(c)+'<h3>📢 College Notices</h3>'+nl(c.nt||[],30)+'<p class="mu">आधिकारिक नोटिस के लिए college/university की वेबसाइट देखें।</p><button class="btn s" onclick="back()">← इसी university के और colleges</button>'}
 function study(){
 var cs=["All"];db.study.forEach(function(x){if(cs.indexOf(x.c)<0)cs.push(x.c)});
 var r=db.study.filter(function(x){return sc=="All"||x.c==sc});
@@ -254,7 +260,10 @@ ad("study",d.study,function(x){return x.c+"|"+x.t});ad("mcq",d.mcq,function(x){r
 ad("cx",d.cx,function(x){return x.n});ad("sx",d.sx,function(x){return x.n});ad("notices",d.notices,function(x){return x.t+"|"+x.d},1);
 (d.uniLinks||[]).forEach(function(x){var u=uget(x.id);if(u.id){if(x.u)u.u=x.u;u.l=Object.assign(u.l||{},x.l||{})}});
 (d.collegeLinks||[]).forEach(function(x){fc(x).forEach(function(c){if(x.u)c.u=x.u;c.l=Object.assign(c.l||{},x.l||{})})});
-(d.collegeNotices||[]).forEach(function(x){fc(x).forEach(function(c){c.nt=c.nt||[];if(!c.nt.some(function(n){return n.t==x.t&&n.d==x.d}))c.nt.unshift({t:x.t,d:x.d,x:x.x})})})}
+(d.collegeNotices||[]).forEach(function(x){fc(x).forEach(function(c){c.nt=c.nt||[];if(!c.nt.some(function(n){return n.t==x.t&&n.d==x.d}))c.nt.unshift({t:x.t,d:x.d,x:x.x,f:x.f})})});
+(d.uniNotices||[]).forEach(function(x){var u=uget(x.id);if(!u.id)return;u.nt=u.nt||[];if(!u.nt.some(function(n){return n.t==x.t&&n.d==x.d}))u.nt.unshift({t:x.t,d:x.d,x:x.x,f:x.f})});
+(d.uniCourses||[]).forEach(function(x){var u=uget(x.id);if(!u.id)return;u.courses=u.courses||[];var e=u.courses.filter(function(y){return y.lv==x.lv})[0];if(!e)u.courses.push({lv:x.lv,cs:x.cs.slice(),l:Object.assign({},x.l)});else{x.cs.forEach(function(k){if(e.cs.indexOf(k)<0)e.cs.push(k)});e.l=Object.assign(e.l||{},x.l||{})}});
+(d.collegeCourses||[]).forEach(function(x){fc(x).forEach(function(c){c.courses=c.courses||[];var e=c.courses.filter(function(y){return y.lv==x.lv})[0];if(!e)c.courses.push({lv:x.lv,cs:x.cs.slice(),l:Object.assign({},x.l)});else{x.cs.forEach(function(k){if(e.cs.indexOf(k)<0)e.cs.push(k)});e.l=Object.assign(e.l||{},x.l||{})}})})}
 try{fetch("data.json").then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){if(d){mg(d);render()}}).catch(function(){})}catch(e){}
 /* ---- Supabase cloud sync (admin content) (config.js में URL/key भरने पर चालू) ---- */
 var SB=window.AKM_CONFIG||{},sbOn=!!(SB.SUPABASE_URL&&SB.SUPABASE_ANON_KEY),sbTok=null,SK=["notices","unis","colleges","study","mcq","cx","sx"];
