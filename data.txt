@@ -92,3 +92,5 @@ magadh | 2026-10-23 | Semester 3rd 2025-29 Exam Schedule | new exam schedule | u
 [notices]
 # तारीख | शीर्षक | विवरण | PDF या फोटो का नाम (या लिंक)  <- आख़िरी हिस्सा वैकल्पिक
 # 2026-11-05 | परीक्षा नोटिस | विवरण यहाँ | exam-notice.pdf
+
+2026-11-04 | UG SEMESTER 3RD & 4TH का EXAM  Form | ONLINE START 
