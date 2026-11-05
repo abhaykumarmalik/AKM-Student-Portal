@@ -11,7 +11,7 @@
 # uni-id: Magadh = magadh, Patna Univ = patna, LNMU = lnmu, VKSU = vksu, TMBU = tmbu, BRABU = brabu, JPU = jpu, BNMU = bnmu
 # patna | Patna College | Patna | Constituent | https://example.com
 # magadh | Naya College | Gaya | Affiliated
-
+magadh | Thakur BD Sinha Janta College | Akauna, Goh, Aurangabad 824203 | Affiliated | https://tbdscollege.ac.in/ |
 
 [college-links]
 # College नाम (या College नाम @ जगह) | Website | Admission | Exam Form | Result | Syllabus   (खाली छोड़ सकते हैं)
