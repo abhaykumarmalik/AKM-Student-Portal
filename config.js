@@ -4,10 +4,8 @@ window.AKM_CONFIG = {
   CONTACT_EMAIL: "mrabhaykumarmalik@gmail.com",  // Privacy Policy / Contact पर दिखता है
   WHATSAPP_URL: "https://whatsapp.com/channel/0029VbEBfsg6BIElTkLwKb2S",
   TELEGRAM_URL: "https://t.me/AKMStudentPortal",
-  SUPABASE_URL: "",        // वैकल्पिक: सारे छात्रों को एक जैसा admin-डेटा दिखाने के लिए (README देखें)
-  SUPABASE_ANON_KEY: "",   // Supabase → Project Settings → API → anon key (सार्वजनिक key)
+  SUPABASE_URL: "https://lhuxiukuatrjzgidiqaz.supabase.co/rest/v1/",
+  SUPABASE_ANON_KEY: "sb_publishable_f_lhpGe9HKUfrWZ6iht3Bw_TotFcSjV",
   ADSENSE_CLIENT: "",      // AdSense approve होने के बाद: ca-pub-xxxxxxxxxxxxxxxx
   ADSENSE_SLOT: ""         // AdSense में बनाए ad unit की slot ID
   };
-SUPABASE_URL: "https://lhuxiukuatrjzgidiqaz.supabase.co/rest/v1/",
-SUPABASE_ANON_KEY: "sb_publishable_f_lhpGe9HKUfrWZ6iht3Bw_TotFcSjV",
