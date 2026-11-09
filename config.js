@@ -4,7 +4,7 @@ window.AKM_CONFIG = {
   CONTACT_EMAIL: "mrabhaykumarmalik@gmail.com",  // Privacy Policy / Contact पर दिखता है
   WHATSAPP_URL: "https://whatsapp.com/channel/0029VbEBfsg6BIElTkLwKb2S",
   TELEGRAM_URL: "https://t.me/AKMStudentPortal",
-  SUPABASE_URL: "https://lhuxiukuatrjzgidiqaz.supabase.co/rest/v1/",
+  SUPABASE_URL: "https://lhuxiukuatrjzgidiqaz.supabase.co",
   SUPABASE_ANON_KEY: "sb_publishable_f_lhpGe9HKUfrWZ6iht3Bw_TotFcSjV",
   ADSENSE_CLIENT: "",      // AdSense approve होने के बाद: ca-pub-xxxxxxxxxxxxxxxx
   ADSENSE_SLOT: ""         // AdSense में बनाए ad unit की slot ID
