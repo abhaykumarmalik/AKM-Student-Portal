@@ -122,11 +122,11 @@ function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return
 function $(s){return document.querySelector(s)}
 function toast(m){var t=$("#toast");t.textContent=m;t.className="on";setTimeout(function(){t.className=""},1800)}
 function go(t){tab=t;cu=null;cc=null;sub="";dist="All";lv="All";lim=30;render();window.scrollTo(0,0)}
-var NAV=[["home","🏠","Home"],["unis","🎓","University"],["Comp","📚","Competition_Exams"],["quiz","📝","MCQ"],["notices","📰","Updates"]];
+var NAV=[["home","🏠","Home"],["unis","🎓","University"],["study","📚","Study"],["quiz","📝","MCQ"],["notices","📰","Updates"]];
 function render(){
 $("#nav").innerHTML=NAV.map(function(n){return'<button class="'+(tab==n[0]?"on":"")+'" onclick="go(\''+n[0]+'\')"><b>'+n[1]+"</b>"+n[2]+"</button>"}).join("");
 $("#ab").style.display=adm()&&isAdmin?"":"none";
-$("#v").innerHTML=({home:home,unis:unis,Comp:Competition_Exams,quiz:quiz,notices:notices,admin:admin,legal:legal})[tab]()+(tab=="admin"?"":foot());adsInit();
+$("#v").innerHTML=({home:home,unis:unis,study:study,quiz:quiz,notices:notices,admin:admin,legal:legal})[tab]()+(tab=="admin"?"":foot());adsInit();
 if(tab=="unis"){ulist();clist()}}
 function nd(d){var p=String(d).split("-");var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];return p.length==3?'<div class="nd"><b>'+p[2]+"</b><span>"+(m[+p[1]-1]||"")+"</span></div>":'<div class="nd"><b>📢</b></div>'}
 function nlist(n){return nl(db.notices,n)}
@@ -147,7 +147,7 @@ function exa(h,t){return h?'<a target="_blank" rel="noopener" href="'+esc(h)+'">
 function exl(a){return(a||[]).map(function(e){return'<div class="card"><div class="row"><b>'+esc(e.n)+'</b><span class="tag">'+esc(e.b)+'</span></div><div class="lk">'+exa(e.u,"🌐 Official")+exa(e.sy||e.u,"📘 Syllabus")+exa(e.pq||e.u,"📝 PYQ")+"</div></div>"}).join("")}
 function home(){
 var c=db.unis.length,a=db.colleges.length;
-return'<div class="card hero"><img class="hl" src="'+LOGO_L+'" alt="AKM Student Portal"><h2>नमस्ते 👋</h2><p>Student Zone: university, college, Competition_Exams, MCQ और notices — सब कुछ एक जगह।</p><span class=\"pill\">🎓 Bihar Universities</span><span class=\"pill\">📚 Study · MCQ · Notices</span></div>'+
+return'<div class="card hero"><img class="hl" src="'+LOGO_L+'" alt="AKM Student Portal"><h2>नमस्ते 👋</h2><p>Student Zone: university, college, notes, MCQ और notices — सब कुछ एक जगह।</p><span class=\"pill\">🎓 Bihar Universities</span><span class=\"pill\">📚 Study · MCQ · Notices</span></div>'+
 '<div class="st"><div><b>'+c+"</b><span>Universities</span></div><div><b>"+a+"</b><span>Colleges</span></div><div><b>"+db.mcq.length+"</b><span>MCQ</span></div></div>"+
 '<div class="card"><b>🔍 अपनी University या College खोजें</b><input id="hq" type="search" placeholder="जैसे: Magadh, Gaya College, Patna" onkeydown="if(event.key==\'Enter\')hs()"><button class="btn" onclick="hs()">खोजें</button></div>'+
 '<div class="row"><h3>🎓 Universities</h3><a class="tag" style="cursor:pointer" onclick="go(\'unis\')">सभी देखें ›</a></div><div class="chips">'+db.unis.filter(function(u){return u.t=="State"}).map(function(u){return'<button class="chip" onclick="go(\'unis\');to(\''+u.id+'\',null)">'+esc(u.s)+"</button>"}).join("")+"</div><h3>🏛️ Central Competition Exams</h3>"+exl(db.cx)+ad("h1")+"<h3>📋 State (Bihar) Competition Exams</h3>"+exl(db.sx)+
@@ -169,7 +169,7 @@ var LK=[["ad","📄","Admission"],["ex","📝","Exam Form"],["rs","🏆","Result
 function lurl(k,c,u){return(c&&c.l&&c.l[k])||(u&&u.l&&u.l[k])||(u&&u.u)||(c&&c.u)||""}
 function lks(c,u){return'<div class="lk" onclick="event.stopPropagation()">'+LK.map(function(x){var h=lurl(x[0],c,u);return h?'<a target="_blank" rel="noopener" href="'+esc(h)+'">'+x[1]+" "+x[2]+"</a>":""}).join("")+"</div>"}
 function four(c,u){return'<div class="grid">'+LK.map(function(x){return lnk(lurl(x[0],c,u),x[2],x[1],"g0")}).join("")+"</div>"}
-var LVN={UG:"UG · स्नातक",PG:"PG · स्नातकोत्तर",Vocational:"Vocational. कौशल / रोज़गार परक",Educational:"Educational. ,Engineering:"Engineering. ,Pharmacy:"Pharmacy. ,Medical:"Medical. ,Community:"Community. ,Nursing:"Nursing. ,Paramedical/Physiotherapy/DRT/Yoga_&_Others_courses:"Paramedical/Physiotherapy/DRT/Yoga&Others_courses . ,Law:"Law. ,Minority:"Minority . ,Professional:"Professional · पेशेवर","B.Ed":"B.Ed ·"M.Ed":"M.Ed शिक्षक शिक्षा",PhD:"PhD · शोध"};
+var LVN={UG:"UG · स्नातक",PG:"PG · स्नातकोत्तर",Vocational:"Vocational · कौशल / रोज़गार परक",Professional:"Professional · पेशेवर","B.Ed":"B.Ed · शिक्षक शिक्षा",PhD:"PhD · शोध"};
 function ctx(c){return(c.courses||[]).map(function(x){return x.lv+" "+x.cs.join(" ")}).join(" ")}
 function lvt(c){var a=(c.courses||[]).map(function(x){return x.lv});return a.length?'<div class="mu" style="margin-top:2px">🎓 '+a.join(" · ")+"</div>":""}
 function crs(c){var a=c.courses||[];if(!a.length)return"";return"<h3>📚 Courses</h3>"+["UG","PG","B.Ed","Vocational","Professional","PhD"].map(function(l){var x=a.filter(function(y){return y.lv==l})[0];return x?'<div class="card"><b>'+LVN[l]+'</b><div style="margin-top:8px">'+x.cs.map(function(k){return'<span class="tag" style="margin:0 6px 6px 0">'+esc(k)+"</span>"}).join("")+"</div>"+((x.l&&(x.l.ad||x.l.sy))?'<div class="lk">'+(x.l.ad?'<a target="_blank" rel="noopener" href="'+esc(x.l.ad)+'">📄 Admission</a>':"")+(x.l.sy?'<a target="_blank" rel="noopener" href="'+esc(x.l.sy)+'">📘 Syllabus</a>':"")+"</div>":"")+"</div>":""}).join("")}
