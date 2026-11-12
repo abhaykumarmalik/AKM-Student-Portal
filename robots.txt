@@ -1,2 +1,5 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://abhaykumarmalik.github.io/AKM-Student-Portal/sitemap.xml
+
