@@ -84,6 +84,33 @@ nav button.on{box-shadow:0 2px 12px rgba(255,255,255,.14)}
 .card.hero{padding:14px 16px}.card.hero .hl{height:38px;width:auto;max-width:62%;margin:0 0 4px}.card.hero h2{font-size:18px;margin:2px 0}.card.hero p{font-size:13px;margin:2px 0 8px;line-height:1.45}.card.hero .pill{font-size:11.5px;padding:4px 10px;margin:0 6px 0 0}
 .socs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.so{width:46px;height:46px;border-radius:14px;display:grid;place-items:center}.so svg{width:24px;height:24px;fill:#fff}.so.fb{background:#1877f2}.so.ig{background:linear-gradient(45deg,#f9a825,#e91e63,#7b1fa2)}.so.yt{background:#e53935}.so.wa{background:#25d366}.so.tg{background:#229ed9}
 a.btn{display:block;text-align:center;text-decoration:none;margin-top:12px}
+/* ===== Responsive v2: mobile + desktop ===== */
+body{font-size:16px}
+.mu{font-size:14px}.tag{font-size:12px}.lk a{font-size:12px}.chip{font-size:14px}h3{font-size:16.5px;margin:26px 2px 12px}.st span{font-size:12px}.card.hero p{font-size:15px}.card.hero .pill{font-size:12.5px}
+.card{margin-bottom:16px;padding:16px}
+.st{gap:12px;margin-bottom:16px}
+.qb{display:flex;gap:12px;margin:10px 0 22px}.qb .btn{margin-top:0;flex:1}
+.hgrid{display:block}
+.jc{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 14px;margin-top:18px}.jc b{font-size:13px;font-weight:600}.jc div{display:flex;gap:8px;flex-wrap:wrap}.jb{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;border:1px solid var(--bd);border-radius:99px;padding:5px 12px;color:var(--tx);text-decoration:none}
+@media (min-width:768px){main{max-width:820px;padding:24px 22px 40px}}
+@media (min-width:900px){
+html{zoom:1.15}
+body{padding-bottom:40px}
+header{padding:14px 28px}
+main{max-width:1160px;margin:0 auto 0 220px;padding:30px 40px 48px}
+nav{z-index:8;left:0;right:auto;top:0;bottom:0;width:220px;flex-direction:column;justify-content:flex-start;gap:6px;border-radius:0;border-width:0 1px 0 0;padding:92px 14px 20px;box-shadow:none;margin:0}
+nav button{flex:none;flex-direction:row;justify-content:flex-start;gap:14px;font-size:15px;padding:12px 16px;border-radius:12px}
+nav button b{font-size:21px}
+.card.hero{padding:40px 44px}.card.hero .hl{height:72px;width:auto;max-width:none;margin-bottom:10px}.card.hero h2{font-size:32px}.card.hero p{font-size:18px;max-width:640px}.card.hero .pill{font-size:14px;padding:6px 16px}
+.st b{font-size:30px}.st span{font-size:13px}
+.hgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:start}
+.grid{grid-template-columns:repeat(3,1fr)}
+#ul,#cl{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:start}#ul>:not(.card),#cl>:not(.card){grid-column:1/-1}#ul .card,#cl .card{margin-bottom:0}
+main[data-t="exams"],main[data-t="schol"],main[data-t="contact"]{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:start}
+main[data-t="exams"]>:not(.card),main[data-t="schol"]>:not(.card),main[data-t="contact"]>:not(.card),main[data-t="exams"]>.card:first-child,main[data-t="schol"]>.card:first-child{grid-column:1/-1}
+main[data-t="exams"]>.card,main[data-t="schol"]>.card,main[data-t="contact"]>.card{margin-bottom:0}
+.jc{margin-top:22px}
+}
 </style>
 </head>
 <body>
@@ -157,7 +184,7 @@ var NAV=[["home","🏠","Home"],["unis","🎓","Univ."],["exams","🏛️","Exam
 function render(){
 var nh=NAV.map(function(n){return'<button class="'+(tab==n[0]?"on":"")+'" onclick="go(\''+n[0]+'\')"><b>'+n[1]+"</b>"+n[2]+"</button>"}).join("");var nv=$("#nav");if(nv._h!==nh){nv.innerHTML=nh;nv._h=nh}
 $("#ab").style.display=adm()&&isAdmin?"":"none";
-$("#v").innerHTML=({home:home,unis:unis,exams:exams,schol:schol,contact:contact,study:study,notices:notices,admin:admin,legal:legal})[tab]()+(tab=="admin"?"":foot());adsInit();
+$("#v").setAttribute("data-t",tab);$("#v").innerHTML=({home:home,unis:unis,exams:exams,schol:schol,contact:contact,study:study,notices:notices,admin:admin,legal:legal})[tab]()+(tab=="admin"?"":foot());adsInit();
 if(tab=="unis"){ulist();clist()}if(tab=="admin"){schFill();ctFill()}}
 function nd(d){var p=String(d).split("-");var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];return p.length==3?'<div class="nd"><b>'+p[2]+"</b><span>"+(m[+p[1]-1]||"")+"</span></div>":'<div class="nd"><b>📢</b></div>'}
 function nlist(n){return nl(db.notices,n)}
@@ -201,10 +228,9 @@ function home(){
 var c=db.unis.length,a=db.colleges.length;
 return'<div class="card hero"><img class="hl" src="'+LOGO_L+'" alt="AKM Student Portal"><h2>नमस्ते 👋</h2><p>Student Zone: university, college, exams और scholarship — सब कुछ एक जगह।</p><span class=\"pill\">🎓 Bihar Universities</span><span class=\"pill\">🏛️ Competitive Exams</span><span class=\"pill\">💰 Scholarship</span></div>'+
 '<div class="st"><div><b>'+c+"</b><span>Universities</span></div><div><b>"+a+"</b><span>Colleges</span></div></div>"+
-'<div class="card"><b>🔍 अपनी University या College खोजें</b><input id="hq" type="search" placeholder="जैसे: Magadh, Gaya College, Patna" onkeydown="if(event.key==\'Enter\')hs()"><button class="btn" onclick="hs()">खोजें</button></div>'+
-'<div class="row"><h3>🎓 Universities</h3><a class="tag" style="cursor:pointer" onclick="go(\'unis\')">सभी देखें ›</a></div><div class="chips">'+db.unis.filter(function(u){return u.t=="State"}).map(function(u){return'<button class="chip" onclick="go(\'unis\');to(\''+u.id+'\',null)">'+esc(u.s)+"</button>"}).join("")+'</div><div class="row" style="gap:10px;margin-top:6px"><button class="btn" onclick="go(\'exams\')">🏛️ Competition Exams</button><button class="btn" onclick="go(\'schol\')">💰 Scholarship</button></div>'+ad("h1")+
-join()+"<h3>📢 ताज़ा नोटिस</h3>"+nlist(2)+
-'<div class="card"><b>📲 ऐप की तरह इस्तेमाल करें</b><p class="mu">Chrome में ⋮ → “Add to Home screen”।</p></div>'}
+'<div class="hgrid"><div><div class="card"><b>🔍 अपनी University या College खोजें</b><input id="hq" type="search" placeholder="जैसे: Magadh, Gaya College, Patna" onkeydown="if(event.key==\'Enter\')hs()"><button class="btn" onclick="hs()">खोजें</button></div>'+
+'<div class="row"><h3>🎓 Universities</h3><a class="tag" style="cursor:pointer" onclick="go(\'unis\')">सभी देखें ›</a></div><div class="chips">'+db.unis.filter(function(u){return u.t=="State"}).map(function(u){return'<button class="chip" onclick="go(\'unis\');to(\''+u.id+'\',null)">'+esc(u.s)+"</button>"}).join("")+'</div><div class="row qb"><button class="btn" onclick="go(\'exams\')">🏛️ Competition Exams</button><button class="btn" onclick="go(\'schol\')">💰 Scholarship</button></div>'+ad("h1")+'</div><div>'+"<h3>📢 ताज़ा नोटिस</h3>"+nlist(2)+
+'<div class="card"><b>📲 ऐप की तरह इस्तेमाल करें</b><p class="mu">Chrome में ⋮ → “Add to Home screen”।</p></div>'+join(1)+"</div></div>"}
 var cu=null,cc=null,uf="All",dist="All",lv="All",lim=30;
 var TY=[["All","सभी"],["State","राज्य (State)"],["Central","केंद्रीय (Central)"],["Institute","IIT / NIT / AIIMS"]];
 function uget(id){return db.unis.filter(function(u){return u.id==id})[0]||{}}
@@ -277,7 +303,7 @@ var ups=[];
 function cfg(){var C=window.AKM_CONFIG||{},d=(typeof db!=="undefined"&&db.contact)||{},o=Object.assign({},C);if(d.ce)o.CONTACT_EMAIL=d.ce;if(d.cw)o.WHATSAPP_URL=d.cw;if(d.cg)o.TELEGRAM_URL=d.cg;return o}
 var SVG_WA='<svg viewBox="0 0 32 32" width="40" height="40" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#25D366"/><path d="M16 7.1A8.4 8.4 0 1 1 11.8 22.8L7.2 24.4 8.7 20A8.4 8.4 0 0 1 16 7.1Z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><path transform="translate(10 9.5) scale(.5)" fill="#fff" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>',SVG_TG='<svg viewBox="0 0 32 32" width="40" height="40" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#229ED9"/><path fill="#fff" d="M7.2 15.5l16.3-6.3c.76-.28 1.42.18 1.18 1.33l-2.77 13.05c-.2.93-.76 1.15-1.54.72l-4.2-3.1-2.03 1.96c-.22.22-.41.41-.84.41l.3-4.28 7.78-7.03c.34-.3-.07-.47-.52-.17l-9.62 6.06-4.15-1.3c-.9-.28-.92-.9.19-1.34z"/></svg>';
 function jn(u,s,t){return'<a class="jn" target="_blank" rel="noopener" href="'+esc(u)+'">'+s+"<span><b>"+t+"</b><small>जॉइन करें · रोज़ के updates</small></span><i>›</i></a>"}
-function join(){var c=cfg(),a="";if(c.WHATSAPP_URL)a+=jn(c.WHATSAPP_URL,SVG_WA,"WhatsApp Channel");if(c.TELEGRAM_URL)a+=jn(c.TELEGRAM_URL,SVG_TG,"Telegram Channel");return a?'<div class="card"><b>📲 सीधे फ़ोन पर updates पाएँ</b>'+a+"</div>":""}
+function join(s){var c=cfg(),a="";if(s){var z=function(x){return x.replace('width="40" height="40"','width="22" height="22"')};if(c.WHATSAPP_URL)a+='<a class="jb" target="_blank" rel="noopener" href="'+esc(c.WHATSAPP_URL)+'">'+z(SVG_WA)+"WhatsApp</a>";if(c.TELEGRAM_URL)a+='<a class="jb" target="_blank" rel="noopener" href="'+esc(c.TELEGRAM_URL)+'">'+z(SVG_TG)+"Telegram</a>";return a?'<div class="card jc"><b>📲 Updates पाएँ</b><div>'+a+"</div></div>":""}if(c.WHATSAPP_URL)a+=jn(c.WHATSAPP_URL,SVG_WA,"WhatsApp Channel");if(c.TELEGRAM_URL)a+=jn(c.TELEGRAM_URL,SVG_TG,"Telegram Channel");return a?'<div class="card"><b>📲 सीधे फ़ोन पर updates पाएँ</b>'+a+"</div>":""}
 function fsoc(){var c=cfg(),s=function(x){return x.replace('width="40" height="40"','width="32" height="32"')},a="";if(c.WHATSAPP_URL)a+='<a target="_blank" rel="noopener" href="'+esc(c.WHATSAPP_URL)+'" aria-label="WhatsApp Channel">'+s(SVG_WA)+"</a>";if(c.TELEGRAM_URL)a+='<a target="_blank" rel="noopener" href="'+esc(c.TELEGRAM_URL)+'" aria-label="Telegram Channel">'+s(SVG_TG)+"</a>";return a?'<div class="fs">'+a+"</div>":""}
 function upl(n){return""}
 function notices(){return join()+ad("n1")+"<h3>📢 नोटिस</h3>"+nlist(50)}
