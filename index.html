@@ -95,18 +95,19 @@ body{font-size:16px}
 @media (min-width:768px){main{max-width:820px;padding:24px 22px 40px}}
 @media (min-width:900px){
 html{zoom:1.15}
-body{padding-bottom:40px}
-header{padding:14px 28px}
-main{max-width:1160px;margin:0 auto 0 220px;padding:30px 40px 48px}
-nav{z-index:8;left:0;right:auto;top:0;bottom:0;width:220px;flex-direction:column;justify-content:flex-start;gap:6px;border-radius:0;border-width:0 1px 0 0;padding:92px 14px 20px;box-shadow:none;margin:0}
-nav button{flex:none;flex-direction:row;justify-content:flex-start;gap:14px;font-size:15px;padding:12px 16px;border-radius:12px}
-nav button b{font-size:21px}
+body{display:flex;flex-direction:column;padding-bottom:40px}
+header{order:0;padding:12px 28px}
+nav{order:1;position:sticky;top:var(--hh,67px);left:auto;right:auto;bottom:auto;z-index:8;width:auto;flex-direction:row;justify-content:center;gap:6px;border-radius:0;border-width:0 0 1px 0;padding:8px 20px;box-shadow:none;margin:0}
+nav button{flex:none;flex-direction:row;justify-content:center;gap:8px;font-size:14px;padding:9px 18px;border-radius:12px}
+nav button b{font-size:18px}
+main{order:2;width:100%;max-width:1160px;margin:0 auto;padding:28px 40px 48px;min-width:0}
 .card.hero{padding:40px 44px}.card.hero .hl{height:72px;width:auto;max-width:none;margin-bottom:10px}.card.hero h2{font-size:32px}.card.hero p{font-size:18px;max-width:640px}.card.hero .pill{font-size:14px;padding:6px 16px}
 .st b{font-size:30px}.st span{font-size:13px}
-.hgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:start}
-.grid{grid-template-columns:repeat(3,1fr)}
-#ul,#cl{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:start}#ul>:not(.card),#cl>:not(.card){grid-column:1/-1}#ul .card,#cl .card{margin-bottom:0}
-main[data-t="exams"],main[data-t="schol"],main[data-t="contact"]{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:start}
+.hgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:28px;align-items:start}.hgrid>*{min-width:0}
+.grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+#ul,#cl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-content:start}#ul>:not(.card),#cl>:not(.card){grid-column:1/-1}#ul>*,#cl>*{min-width:0}#ul .card,#cl .card{margin-bottom:0}
+main[data-t="exams"],main[data-t="schol"],main[data-t="contact"]{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-content:start}
+main[data-t="exams"]>*,main[data-t="schol"]>*,main[data-t="contact"]>*{min-width:0}
 main[data-t="exams"]>:not(.card),main[data-t="schol"]>:not(.card),main[data-t="contact"]>:not(.card),main[data-t="exams"]>.card:first-child,main[data-t="schol"]>.card:first-child{grid-column:1/-1}
 main[data-t="exams"]>.card,main[data-t="schol"]>.card,main[data-t="contact"]>.card{margin-bottom:0}
 .jc{margin-top:22px}
@@ -471,8 +472,10 @@ alogin=function(){var em=($("#ae").value||"").trim().toLowerCase(),pw=$("#ap").v
 sbAuth({email:em,password:pw},"password").then(function(){isAdmin=true;window.LERR="";render()}).catch(function(e){window.LERR=lerr(e);render()})};
 window.alogout=function(){sbTok=null;isAdmin=false;try{localStorage.removeItem("akm_sb_tok")}catch(e){}render()}
 }
+function hh(){var h=document.querySelector("header");if(h)document.documentElement.style.setProperty("--hh",h.offsetHeight+"px")}
+hh();addEventListener("resize",hh);addEventListener("load",hh);
 try{var _c0=localStorage.getItem("akm_ex_cache");if(_c0)mg(JSON.parse(_c0))}catch(e){}
-render();
+render();hh();
 if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
 </script>
 </body>
