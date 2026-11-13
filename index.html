@@ -92,18 +92,19 @@ body{font-size:16px}
 .qb{display:flex;gap:12px;margin:10px 0 22px}.qb .btn{margin-top:0;flex:1}
 .hgrid{display:block}
 .jc{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 14px;margin-top:18px}.jc b{font-size:13px;font-weight:600}.jc div{display:flex;gap:8px;flex-wrap:wrap}.jb{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;border:1px solid var(--bd);border-radius:99px;padding:5px 12px;color:var(--tx);text-decoration:none}
+nav button.dk{display:none}
 @media (min-width:768px){main{max-width:820px;padding:24px 22px 40px}}
 @media (min-width:900px){
 html{zoom:1.15}
 body{display:flex;flex-direction:column;padding-bottom:40px}
 header{order:0;padding:12px 28px}
-nav{order:1;position:sticky;top:var(--hh,67px);left:auto;right:auto;bottom:auto;z-index:8;width:auto;flex-direction:row;justify-content:center;gap:6px;border-radius:0;border-width:0 0 1px 0;padding:8px 20px;box-shadow:none;margin:0}
+nav{max-width:none;order:1;position:sticky;top:var(--hh,67px);left:auto;right:auto;bottom:auto;z-index:8;width:auto;flex-direction:row;justify-content:center;gap:6px;border-radius:0;border-width:0 0 1px 0;padding:8px 20px;box-shadow:none;margin:0}
 nav button{flex:none;flex-direction:row;justify-content:center;gap:8px;font-size:14px;padding:9px 18px;border-radius:12px}
-nav button b{font-size:18px}
+nav button b{font-size:18px}nav button.dk{display:flex}
 main{order:2;width:100%;max-width:1160px;margin:0 auto;padding:28px 40px 48px;min-width:0}
 .card.hero{padding:40px 44px}.card.hero .hl{height:72px;width:auto;max-width:none;margin-bottom:10px}.card.hero h2{font-size:32px}.card.hero p{font-size:18px;max-width:640px}.card.hero .pill{font-size:14px;padding:6px 16px}
 .st b{font-size:30px}.st span{font-size:13px}
-.hgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:28px;align-items:start}.hgrid>*{min-width:0}
+.hgrid{display:block}.chips{flex-wrap:wrap;overflow-x:visible}
 .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 #ul,#cl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-content:start}#ul>:not(.card),#cl>:not(.card){grid-column:1/-1}#ul>*,#cl>*{min-width:0}#ul .card,#cl .card{margin-bottom:0}
 main[data-t="exams"],main[data-t="schol"],main[data-t="contact"]{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-content:start}
@@ -112,6 +113,7 @@ main[data-t="exams"]>:not(.card),main[data-t="schol"]>:not(.card),main[data-t="c
 main[data-t="exams"]>.card,main[data-t="schol"]>.card,main[data-t="contact"]>.card{margin-bottom:0}
 .jc{margin-top:22px}
 }
+.qb{align-items:stretch}.qb .btn{display:flex;align-items:center;justify-content:center;text-align:center}
 </style>
 </head>
 <body>
@@ -181,9 +183,9 @@ var CTXC=new WeakMap(),SXC=new WeakMap();
 function sxs(c){var v=SXC.get(c);if(v===undefined){v=(c.n+" "+c.p+" "+ctx(c)).toLowerCase();SXC.set(c,v)}return v}
 function toast(m){var t=$("#toast");t.textContent=m;t.className="on";setTimeout(function(){t.className=""},1800)}
 function go(t){tab=t;cu=null;cc=null;sub="";dist="All";lv="All";lim=30;render();window.scrollTo(0,0)}
-var NAV=[["home","🏠","Home"],["unis","🎓","Univ."],["exams","🏛️","Exams"],["schol","💰","Scholar"],["contact","📞","Contact"],["notices","📰","Updates"]];
+var NAV=[["home","🏠","Home"],["unis","🎓","Univ."],["exams","🏛️","Exams"],["schol","💰","Scholar"],["contact","📞","Contact"],["notices","📰","Updates"],["legal","🔒","Privacy"]];
 function render(){
-var nh=NAV.map(function(n){return'<button class="'+(tab==n[0]?"on":"")+'" onclick="go(\''+n[0]+'\')"><b>'+n[1]+"</b>"+n[2]+"</button>"}).join("");var nv=$("#nav");if(nv._h!==nh){nv.innerHTML=nh;nv._h=nh}
+var nh=NAV.map(function(n){return'<button class="'+(tab==n[0]?"on":"")+(n[0]=="legal"?" dk":"")+'" onclick="go(\''+n[0]+'\')"><b>'+n[1]+"</b>"+n[2]+"</button>"}).join("");var nv=$("#nav");if(nv._h!==nh){nv.innerHTML=nh;nv._h=nh}
 $("#ab").style.display=adm()&&isAdmin?"":"none";
 $("#v").setAttribute("data-t",tab);$("#v").innerHTML=({home:home,unis:unis,exams:exams,schol:schol,contact:contact,study:study,notices:notices,admin:admin,legal:legal})[tab]()+(tab=="admin"?"":foot());adsInit();
 if(tab=="unis"){ulist();clist()}if(tab=="admin"){schFill();ctFill()}}
